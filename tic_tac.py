@@ -38,7 +38,7 @@ for i in range(0, 9, 3):
     print()
     print("+" + "---+" * 3)
 
-#place_X = input("Press x ONLY!! :")
+place_X = input("Press x ONLY!! :")
 
 while True:
     place_for_X = input("Choose froom position 0 to 8 to place X: " )
@@ -54,6 +54,58 @@ while True:
     else:
         print("Just a number bruv")
         continue
+
+# Checking If X wins
+# Top row
+if board[0] == board [1] == board[2] :
+    print("X wins")
+# middle row
+elif board[3] == board [4] and board[5] == "X":
+    print("X wins")
+# Last row
+elif board[6] == board [7] and board[8] == "X":
+    print("X wins")
+# Left diagonal
+elif board[0] == board [4] and board[8] == "X":
+    print("X wins")
+# Right diagonal
+elif board[2] == board [4] and board[6] == "X":
+    print("X wins")
+# Left column
+elif board[0] == board [3] and board[6] == "X":
+    print("X wins")
+# Right column
+elif board[2] == board [5] and board[8] == "X":
+    print("X wins")
+elif board[1] == board [4] and board[7] == "X":
+    print("X wins")
+
+
+# Checking for O wins
+# Top row
+if board[0] == board [1] and board[2] == "O":
+    print("O wins")
+# middle row
+elif board[3] == board [4] and board[5] == "O":
+    print("O wins")
+# Last row
+elif board[6] == board [7] and board[8] == "O":
+    print("O wins")
+# Left diagonal
+elif board[0] == board [4] and board[8] == "O":
+    print("O wins")
+# Right diagonal
+elif board[2] == board [4] and board[6] == "O":
+    print("O wins")
+# Left column
+elif board[0] == board [3] and board[6] == "O":
+    print("O wins")
+# Right column
+elif board[2] == board [5] and board[8] == "O":
+    print("O wins")
+elif board[1] == board [4] and board[7] == "O":
+    print("O wins")
+
 
 
     
