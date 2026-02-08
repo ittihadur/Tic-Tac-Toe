@@ -29,92 +29,53 @@ print("Press X and O to play")
 
 board = [i * 1 for i in range(0,9)]
 
-
-print("+" + "---+" * 3)
-for i in range(0, 9, 3):
-    print("|", end="")
-    for j in range(3):
-        print(f" {board[i+j]} |", end="")
-    print()
+# Function to display the board
+def display_board():
     print("+" + "---+" * 3)
+    for i in range(0, 9, 3):
+        print("|", end="")
+        for j in range(3):
+            print(f" {board[i+j]} |", end="")
+        print()
+        print("+" + "---+" * 3)
 
 place_X = input("Press x ONLY!! :")
 
-while True:
-    place_for_X = input("Choose froom position 0 to 8 to place X: " )
-    if place_for_X.isdigit() == True:
-        conversion = int(place_for_X)
-        if conversion < 0 or conversion > 8:
-            print("Write within the parameter 1 to 9 u dummy")
-            continue
-        
-        else:
-            print(f"Valid Input {conversion}")
-            break
-    else:
-        print("Just a number bruv")
-        continue
 
-# Checking If X wins
-# Top row
-if board[0] == board [1] == board[2] :
-    print("X wins")
-# middle row
-elif board[3] == board [4] and board[5] == "X":
-    print("X wins")
-# Last row
-elif board[6] == board [7] and board[8] == "X":
-    print("X wins")
-# Left diagonal
-elif board[0] == board [4] and board[8] == "X":
-    print("X wins")
-# Right diagonal
-elif board[2] == board [4] and board[6] == "X":
-    print("X wins")
-# Left column
-elif board[0] == board [3] and board[6] == "X":
-    print("X wins")
-# Right column
-elif board[2] == board [5] and board[8] == "X":
-    print("X wins")
-elif board[1] == board [4] and board[7] == "X":
-    print("X wins")
+# Function for player move
+def player_move(board, player):
+    while True:
+        try:
+            position = int(input(f"Player {player}, choose position 0-8: "))
+            if position < 0 or position > 8:
+                print("Position must be between 0 and 8!")
+            elif board[position] in ['X', 'O']:
+                print("Position already taken! Choose another.")
+            else:
+                board[position] = player
+                break
+        except ValueError:
+            print("Invalid input! Enter a number 0-8.")
 
-
-# Checking for O wins
-# Top row
-if board[0] == board [1] and board[2] == "O":
-    print("O wins")
-# middle row
-elif board[3] == board [4] and board[5] == "O":
-    print("O wins")
-# Last row
-elif board[6] == board [7] and board[8] == "O":
-    print("O wins")
-# Left diagonal
-elif board[0] == board [4] and board[8] == "O":
-    print("O wins")
-# Right diagonal
-elif board[2] == board [4] and board[6] == "O":
-    print("O wins")
-# Left column
-elif board[0] == board [3] and board[6] == "O":
-    print("O wins")
-# Right column
-elif board[2] == board [5] and board[8] == "O":
-    print("O wins")
-elif board[1] == board [4] and board[7] == "O":
-    print("O wins")
-
-
-
+#Function to check if a player has won
+def check_win(board, player):
+    # Check all winning combinations
+    win_combinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
+        [0, 4, 8], [2, 4, 6]              # Diagonals
+    ]
     
+    for combo in win_combinations:
+        if board[combo[0]] == board[combo[1]] == board[combo[2]] == player:
+            return True
+    return False
 
 
 
-
-
-
-
-
-
+# Function to check if the board is full (tie)
+def check_tie(board):
+    for cell in board:
+        if cell not in ['X', 'O']:
+            return False
+    return True
