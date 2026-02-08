@@ -1,36 +1,9 @@
-# Starting menu 
-
-print("Welcome to Tic Tac Toe")
-
-print("Choose game mode using numbers \n ")
-print("1) Player vs Player")
-print("2) Player vs computer")
-while True:
-    input_by_player = input()
-    if input_by_player.isdigit() == True:
-        conversion = int(input_by_player)
-        if conversion == 1:
-            print("Player vs Player")
-            break
-        elif conversion == 2:
-            print("Player vs Computer")
-            break
-        else:
-            print("Invalid Choice")
-            continue
-    else:
-        print("Invalid choice")
-        continue
-
 
 #Creating the board.
 
-print("Press X and O to play")
-
-board = [i * 1 for i in range(0,9)]
 
 # Function to display the board
-def display_board():
+def display_board(board):
     print("+" + "---+" * 3)
     for i in range(0, 9, 3):
         print("|", end="")
@@ -39,23 +12,10 @@ def display_board():
         print()
         print("+" + "---+" * 3)
 
-place_X = input("Press x ONLY!! :")
 
 
-# Function for player move
-def player_move(board, player):
-    while True:
-        try:
-            position = int(input(f"Player {player}, choose position 0-8: "))
-            if position < 0 or position > 8:
-                print("Position must be between 0 and 8!")
-            elif board[position] in ['X', 'O']:
-                print("Position already taken! Choose another.")
-            else:
-                board[position] = player
-                break
-        except ValueError:
-            print("Invalid input! Enter a number 0-8.")
+
+
 
 #Function to check if a player has won
 def check_win(board, player):
@@ -73,9 +33,133 @@ def check_win(board, player):
 
 
 
+
 # Function to check if the board is full (tie)
 def check_tie(board):
     for cell in board:
         if cell not in ['X', 'O']:
             return False
     return True
+
+
+# Function for player move
+def player_move(board, player):
+    while True:
+        try:
+            position = int(input(f"Player {player}, choose position 0-8: "))
+            if position < 0 or position > 8:
+                print("Position must be between 0 and 8!")
+            elif board[position] in ['X', 'O']:
+                print("Position already taken! Choose another.")
+            else:
+                board[position] = player
+                break
+        except ValueError:
+            print("Invalid input! Enter a number 0-8.")
+
+
+
+# Function for simple computer move
+def computer_move(board):
+    import random
+    # Find available positions
+    available = [i for i in range(9) if board[i] not in ['X', 'O']]
+    if available:
+        position = random.choice(available)
+        board[position] = 'O'
+        print(f"Computer chooses position {position}")
+
+
+
+
+# Main game function for Player vs Player
+def play_pvp():
+    board = [str(i) for i in range(9)]  # Create board with numbers
+    current_player = 'X'
+    
+    while True:
+        display_board(board)
+        player_move(board, current_player)
+        
+        # Check for win
+        if check_win(board, current_player):
+            display_board(board)
+            print(f"Player {current_player} wins! Congratulations!")
+            break
+        
+        # Check for tie
+        if check_tie(board):
+            display_board(board)
+            print("It's a tie!")
+            break
+        
+        # Switch player
+        current_player = 'O' if current_player == 'X' else 'X'
+
+
+
+# Main game function for Player vs Computer
+def play_pvc():
+    board = [str(i) for i in range(9)]
+    
+    while True:
+        # Player X's turn
+        display_board(board)
+        player_move(board, 'X')
+        
+        if check_win(board, 'X'):
+            display_board(board)
+            print("Player X wins! Congratulations!")
+            break
+        
+        if check_tie(board):
+            display_board(board)
+            print("It's a tie!")
+            break
+        
+        # Computer O's turn
+        display_board(board)
+        print("Computer's turn...")
+        computer_move(board)
+        
+        if check_win(board, 'O'):
+            display_board(board)
+            print("Computer wins! Better luck next time!")
+            break
+        
+        if check_tie(board):
+            display_board(board)
+            print("It's a tie!")
+            break
+
+
+# Starting menu 
+
+def main():
+    print("Welcome to Tic Tac Toe")
+
+    print("Choose game mode using numbers \n ")
+    print("1) Player vs Player")
+    print("2) Player vs computer")
+    while True:
+        input_by_player = input()
+        if input_by_player.isdigit() == True:
+            conversion = int(input_by_player)
+            if conversion == 1:
+                print("Player vs Player")
+                play_pvp()
+                break
+            elif conversion == 2:
+                print("Player vs Computer")
+                play_pvc()
+                break
+            else:
+                print("Invalid Choice")
+                continue
+        else:
+            print("Invalid choice")
+            continue
+
+
+if __name__ == "__main__":
+    main()
